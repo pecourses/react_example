@@ -8,17 +8,19 @@ export default class UserItem extends Component {
   render() {
     const {
       name,
+      location,
+      phone,
       email,
       cell,
       picture: { medium: imgSrc },
     } = this.props;
 
-    console.log(this.props);
-
     return (
       <div className={styles.userItemContainer}>
         <img className={styles.userAvatar} src={imgSrc} />
         <div>{`${name.first} ${name.last}`}</div>
+        <div>{`Telephone number: ${phone}`}</div>
+        <div>{`${location.country}, ${location.city}`}</div>
       </div>
     );
   }

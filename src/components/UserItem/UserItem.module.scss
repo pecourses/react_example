@@ -1,16 +1,19 @@
 .userItemContainer {
-  height: 100px;
-  width: 800px;
-  min-width: 50vw;
-  max-width: 80vw;
+  min-width: 300px;
+
+  max-width: 90vw;
+  margin: 20px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
 }
 
 .userAvatar {
-  height: 50px;
-  width: 50px;
+  height: 100px;
+  width: 100px;
+
   object-fit: cover;
   border-radius: 50%;
 }

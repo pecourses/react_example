@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Error from '../Error/Error';
 import Spinner from '../Spinner/Spinner';
 import UserItem from '../UserItem/UserItem';
 import { getData } from '../../api';
@@ -10,6 +11,7 @@ export default class UserList extends Component {
     this.state = {
       users: [],
       isFetching: true,
+      error: null,
     };
   }
 
@@ -18,18 +20,26 @@ export default class UserList extends Component {
   }
 
   fetchUsers = async () => {
-    this.setState({
-      isFetching: true,
-    });
+    try {
+      this.setState({
+        isFetching: true,
+      });
 
-    const newUsers = await getData();
+      const newUsers = await getData();
 
-    this.setState({
-      users: [...this.state.users, ...newUsers],
-      isFetching: false,
-    });
+      console.log(newUsers);
 
-    console.log(this.state);
+      this.setState({
+        users: [...this.state.users, ...newUsers],
+        isFetching: false,
+      });
+    } catch (err) {
+      this.setState({
+        isFetching: false,
+        error: { txt: err.message },
+      });
+      console.dir(err.message);
+    }
   };
 
   mapUsers = () => {
@@ -38,13 +48,31 @@ export default class UserList extends Component {
     ));
   };
 
+  logElement = (event) => {
+    console.log(event.currentTarget);
+  };
+
+  clearError = () => {
+    this.setState({
+      error: null,
+    });
+    this.fetchUsers();
+  };
+
   render() {
-    const { users, isFetching } = this.state;
+    const { users, isFetching, error } = this.state;
+
     return (
       <div className={styles.container}>
+        {error && <Error txt={error.txt} clearError={this.clearError} />}
+
         {isFetching && <Spinner />}
+
         {users.length > 0 && this.mapUsers()}
-        <div onClick={this.fetchUsers}>LOAD</div>
+
+        <div onClick={this.fetchUsers} className={styles.loadButton}>
+          LOAD
+        </div>
       </div>
     );
   }
