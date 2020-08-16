@@ -44,7 +44,7 @@ export default class UserList extends Component {
 
   mapUsers = () => {
     return this.state.users.map((user) => (
-      <UserItem {...user} key={user.cell} />
+      <UserItem {...user} key={user.cell} deleteUser={this.deleteUser} />
     ));
   };
 
@@ -57,6 +57,12 @@ export default class UserList extends Component {
       error: null,
     });
     this.fetchUsers();
+  };
+
+  deleteUser = (cell) => {
+    this.setState({
+      users: this.state.users.filter((item) => item.cell !== cell),
+    });
   };
 
   render() {
